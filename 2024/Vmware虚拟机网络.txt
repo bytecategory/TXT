@@ -1,0 +1,49 @@
+1.win+r
+2.control
+3.网络和internet
+4.网络和共享中心
+5.更改适配器设置
+6.右键wlan
+7.属性
+8.安装
+9.服务
+10.添加
+11.VMware Bridge Protocol
+12.C:\Program Files(x86)\VMware\VMware Workstation\netbridge.inf
+1.win+r
+2.net start vmnetbridge
+3.win+x
+4.u
+5.r
+1.C:\Program Files(x86)\VMware\VMware Workstation\vmnetcfg.exe
+2.右键
+3.打开
+4.桥接模式
+5.已桥接至Intel(R) Dual Band Wireless-AC 8256
+6.确定
+7.C:\Programs Files(x86)\VMware\VMware Workstation\vmware.exe
+8.右键
+9.虚拟机
+10.设置
+11.网络适配器
+12.桥接模式:直接连接物理网络
+13.复制物理网络连接状态
+14.确定
+15.vim /etc/network/interfaces
+16.e
+17.o
+18.aoto eth0
+19.0
+20.iface eth0 inet dhcp
+21.shift+z
+22.shift+z
+23.service networking start
+1.ifconfig eth0 up
+2.systemctl restart networking
+3.dhclient eth0
+1.win+r
+2.services.msc
+3.v
+4.双击VMware USB Arbitration Service
+5.启动类型(自动)
+6.单击"启动此服务"
