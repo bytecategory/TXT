@@ -1,0 +1,12 @@
+输入
+/usr/local/x-ui/bin/xray-linux-amd64 x25519
+复制Private key和Public key,
+访问/pannel/inbounds这个路径,点击Add Inbound,Security选择Reality,粘贴Private key和Public key,勾选HTTP Obfuscation,点击Create.
+iptables -I INPUT --protocol tcp --dport 114514 -j ACCEPT
+INPUT 发往本地的数据包
+tcp 数据包的协议 或者用关键词all
+DROP 丢弃数据包
+114514 数据包的目标端口
+ufw allow 114514 开放一个端口
+访问swasnext.console.aliyun.com
+依次点击防火墙模板,模板ID,新增规则,新增规则,输入端口范围114514和备注
