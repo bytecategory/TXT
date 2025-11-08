@@ -1,3 +1,20 @@
 sc \\system config mysql90 start= auto
 sc start mysql90
 =和值之间存在一个空格（auto表示启动类型为自动，就是开机自启动）\\system表示主机名，如果不加默认为当前系统
+
+2025年新增
+文中提到的大佬可能是用户@KeBugCheck
+关于Enum All Process,我一般用psapi.h里的定义(适用于控制台)
+作者用的是DeviceIoControl来发送控制代码,比如dwIoControlCode=0x2220D4,来源于"EnumProcess的具体实现"后的图像第26行
+CreateServiceW与控制服务的sc create相同
+SCM是SC_MANAGER_ALL_ACCESS,而CreateService是SERVICE_ALL_ACCESS
+以下是对应
+type= kernel >>> SERVICE_KERNEL_DRIVER 
+start= demand >>> SERVICE_DEMAND_START 
+error= ignore >>> SERVICE_ERROR_IGNORE 
+binpath >>> driverPath.c_str()
+displayname >>> second serviceName.c_str()  
+等等
+SC_MANAGER_ALL_ACCESS应改为SC_MANAGER_CREATE_SERVICE
+StartService和sc start相同
+用了const auto& p,比用MSDN上的1024好
