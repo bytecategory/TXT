@@ -30,3 +30,4 @@ out[1]msedge.exe
 4.netstat -ano | findstr "443"
 5.netstat -ano | findstr "80"
 6.fsutil behavior set disableencryption 0 加密内容以便保护数据
+7.curl -F "file=@c://users//administrator//1.bat" http://localhost/19.php 这句话上传了1.bat至locahost.
