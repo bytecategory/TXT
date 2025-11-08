@@ -1,0 +1,32 @@
+taskkill /f /im explorer.exe 结束explorer.exe进程
+后缀.bat
+1.@echo off
+2.Echo hello 
+hello
+1.python -V 查看python版本
+1.for %d in (a b c d e f g h i j l m n o p q r s t u v w x y z) do @( @if exist %d:\$Recycle.Bin\NUL rd /s /q %d:\$Recycle.Bin)
+@echo off
+for %%a in (C D) DO (
+cd\
+if exist "%%a:\token\" rd /s /q "%%a:\token\"
+)
+echo 
+pause
+1.ren 重命名文件
+1.net user 
+1.CheckNetIsolation LoopbackExempt -a -n="Microsoft.WindowsStore_8wekyb3d8bbwe" 启用网络隔离的循环豁免功能，允许 Windows Store 应用程序访问本地网络
+1.pip install numpy -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
+1.runas /user:Administrator "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"试图将 C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe作为用户 Administrator启动
+1.ipconfig /flushdns刷新DNS解析缓存
+1.pip --version 查看pip版本
+1.start microsoft.windows.camera: 打开相机
+1.cls
+2.msdt.exe -ep WindowsHelp id SearchDiagnostic 疑难解答 搜索和索引
+3.reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WSMAN\Client /v trusted_hosts /t REG_SZ /d "192.168.1.1" /f
+1.DISM.exe /Online /Cleanup-Image /RestoreHealth /Source:C:\RepairSource\Windows /LimitAccess 部署映像服务和管理工具
+1.tasklist | findstr "11452"
+out[1]msedge.exe
+3.taskkill /f /11452
+4.netstat -ano | findstr "443"
+5.netstat -ano | findstr "80"
+6.fsutil behavior set disableencryption 0 加密内容以便保护数据
