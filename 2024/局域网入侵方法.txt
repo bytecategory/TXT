@@ -122,7 +122,8 @@ localhost                                     Container
 192.168.1.5                                   Container
 
 
-PS WSMan:\> disconnect-wsman -computer 192.168.1.5断开连接
+PS WSMan:\> disconnect-wsman -computer 192.168.1.5
+断开连接
 PS WSMan:\> ls
 
 
