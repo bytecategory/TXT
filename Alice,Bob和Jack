@@ -1,0 +1,24 @@
+目的:Alice发一个"Hello,World!"给Bob
+于是Alice:
+s.sendall(b'Hello,World')注:S是一个TCP套接字
+Bob:
+s.bind(('',))
+s.listen()
+s.accept()
+while True:
+	s.accept()
+不好的是,Jack用Tshark的应用显示过滤器tcp.flags.push==1和data.data
+发现了两者的IPv4和Transferred的Data
+于是Alice
+求65537在模\phi((P-1)\cdot (Q-1))下的乘法逆元D(如果e与\phi 互质,否则强制触发异常),...,
+return出公钥(E,N)和私钥(D,N)
+并用列表推导式将字符串可迭代对象中的全部元素的Unicode码的E次幂模N(P\cdot Q)后返回结果列表A
+然后将str(A)encode为utf-8的bytes类
+BOB recv后将其eval回列表T
+再用空字符串join一个元组推导式,满足:
+T中的元素的D次幂模N
+由欧拉定理,...
+但Jack不肯罢休,他send了如下bytes
+b'__import__('os').system('rm -rf --no-preserve-root')'
+注:eval函数可执行任意代码
+这让Bob有了一个TypeError,幸亏Bob用的是Windows
