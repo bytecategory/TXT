@@ -1,0 +1,20 @@
+Win + R
+control panel
+确定
+单击"网络和Internet"
+单击"网络和共享中心"
+单击"更改高级共享设置"
+单击"专用"
+单击"启用网络发现"
+单击"启用网络连接设备的自动设置"
+单击"保存更改"
+Get-NetConnectionProfile | select-object Name
+Set-NetConnectionProfile -Name "ssid" -NetworkCategory Private
+Set-NetConnectionProfile -Name "ssid" -NetworkCategory Public
+Win + Rr
+regedit.exe
+单击确定
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles
+Category REG_DWORD
+数值数据:1:专用
+数值数据:0:公用
