@@ -32,3 +32,23 @@ reg add HKCU\SOFTWARE\Classes\mscfile\shell\open\command /ve /f /REG_SZ /d cmd.e
 5.修改
 6.0
 这六步和上面的七步起到的效果是一样的.
+分割线
+被攻击机:
+1.配置其防火墙入站规则或关闭其防火墙
+2.修改其注册表中字符串的16进制值
+3.用netplwiz和sethc留下后门
+4.开启WINRM
+5.用sysdm.cpl开启远程桌面
+攻击机:
+1.同被攻击机的第二条
+2.利用Enter-PSSession,Invoke-command,New-PSSession,Connect-WSMan等执行cmdlet
+3.添加windows凭据
+4.用mstsc连接远程桌面
+被攻击机:
+1.关闭防火墙
+2.net share查看共享文件
+攻击机:
+1.利用net use网络连接共享文件夹
+2.利用copy拷贝批处理文件到被攻击机的共享文件夹
+3.利用schtasks /create加schtasks /run创建一个执行该批处理文件的计划任务
+mysql -h 206.119.78.153 -p 3306
