@@ -1,0 +1,102 @@
+a是0
+一个for语句:
+第一个表达式:var j=1
+第二个表达式:j<一个自然数
+第三个表达式:j++
+j是一个整数,我们用toString(j)返回表示j的字符串
+1 用字符串连接+,返回一个哔哩哔哩的CSS选择器.
+2 用document.querySelector,返回一个Element对象
+3 用textContent获取它的文本内容
+4 定义一个正则表达式"/(\d+)?人?赞了我的/"
+其中\d匹配数字,?表示匹配最大1个,最小一个,例"人?"表示匹配最大1个'人',最小0个'人'.
+5 用match方法检索文本内容与正则表达式匹配的结果,并指定返回索引为1的元素,记为b
+6 如果b是一个自然数,那么a+=b
+如果b不是自然数,那么b一定是undefined,所以Number(b)一定为NaN,所以只需判断Number(b).toString是否为'NaN'即可.
+科普:对于HIKVISION产品中的IoT设备的攻击
+HIKVISION即海康威视,是杭州海康威视数字技术股份有限公司旗下的品牌.本篇文章要攻击的是它的IP网络摄像机,目的重在揭露而非破坏
+在用浏览器访问它的网页后,会显示两个input标签和一个button标签,第一个是用户名 第二个是密码,第三个是登录,类似于路由器的登录网页.
+这里的资源路径是doc/page/login.asp
+当用户的鼠标的主键在button标签上被按下和放开时,login()就执行了,为了防止中间人攻击,就像我在另一篇文章(Arp Spoof,我从不用arpspoof这个狗皮膏药,用Python也是考虑九年义务教育的功劳)所展示的.它用了一个自定义的散列算法来对抗它,而不是HSTS(最后一个它指的是中间人攻击),这就无法阻止彩虹表攻击(同样我不会考虑出一篇文章,除非有人私信我)了.
+这个散列算法如下所示
+第零个HTTP请求(为什么不是第一个呢?因为数组的第一个元素就是数组[0])
+会将查询字符串参数设置为C
+C的定义:
+我们把通用HTTP标头Date中的时:分:秒记为D
+事实上,这个标头几乎不会被修改
+然后让D再过大约60秒(不超过61秒),记为E
+(这里我暂时有一个困惑,希望读者告诉我,为什么D要再过大约60秒)
+我们会发现
+new Date('星期 月份 日 年 E GMT+0800 (China Standard Time)').valueOf()刚好约等于
+new Date().valueOf(),记为F
+C就被定义为下划线+F,+是字符串的加法
+以后的+都是字符串的加法
+(注:以上有助于练习绕口令这个冥间游戏,确实妙趣横生)
+第一个HTTP请求(略)因为对于一篇零赞的文章,又有什么可以不略呢?
+注意:第一个和第二个HTTP请求的路径均为ISAPI/Security/sessionLogin/capabilities
+这个路径也在CVE-2020-7057被提到过,被用来枚举用户.
+第二个HTTP请求
+将查询字符串参数设置为
+username=用户名
+random=一个自定义的随机数L
+L的定义如下
+把纪年以来的毫秒数即new Date().valueOf()记为A
+将A转为字符串,它的MD5值的前8个字符记为B
+再匹配B中的#,并将其替换为空字符串,记为C
+将C转为整数,存在一个整数,它的十六进制为C,记为D
+将D转为字符串,它的前8个字符即为L
+依据
+l = MD5("" + (new Date).getTime()).substring(0, 8);
+l = ("" + parseInt(l.replace("#", ""), 16)).substring(0, 8)
+而得
+可以用
+p=lambda x:hashlib.md5(str(x).encode('utf-8')).hexdigest()
+B=p(A)[0:8]
+C=B.replace('#','')
+D=int(a,16)
+L=str(D)[0:8]
+模拟
+L几乎与最后关键的G无关
+在第二个HTTP请求后,它返回了一个xml数据
+略
+<sessionID>会话标识</sessionID>
+<challenge>挑战码</challenge>
+<iterations>一百</iterations>
+<salt>盐</salt>
+略
+其中有挑战码,记为challenge,它(它指单词)刚好是挑战码的英文,其余类似
+会话标识记为sessionID
+一百记为iterations
+盐记为salt
+用户名记为userName
+密码记为password
+最后一个请求,是第三个请求
+我们又去设置一下查询字符串参数
+timeStamp=时间
+然后设置一下表单数据
+<SessionLogin><userName>userName</userName>
+<password>待填</password>
+<sessionID>sessionID</sessionID>
+略
+</SessionLogin>
+待填的数据记为G
+我们把userName+salt+password记为H
+再把H的SHA256值+challenge记为I
+从1到iterations,对I进行SHA256散列,最后即为G.
+以上也是根据utils.js中的
+var i="";
+i=SHA256(t.userName+t.salt+e),
+i=SHA256(i+t.challenge);
+for (var n=2;t.iIterate>n;n++)
+    i=SHA256(i)
+所得
+它是在encodePwd中出现的,当然这里的n=2可以改为n=1
+SHA256也可以删除,这可以使得它们少按10个键
+同样可以用
+H=userName+salt+password 
+I=p(d)+challenge
+for _ in range(1,iterations):
+    a=p(a)
+模拟它
+同时我希望厂家可以给我提供一个真实的黑客环境,
+这并非勒索,但是你们如果无视的话,我就不可避免地会给你们带来财产的损失,尽管我也不愿意.
+
