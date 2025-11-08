@@ -1,0 +1,56 @@
+我注意到,在sympy中,一个分式的as_numer_denom方法将返回这个分式的分子和分母
+其中tuple[0]是分子,tuple[1]是分母
+它使得sympy可以比较两个分式的大小
+这个问题等价于一个分式是否大于0
+让我们看到(是,否)这两个字
+我又注意到了如下的真值表
+非((布尔值)异或(布尔值))
+用解释器执行它们
+not (True).__xor__(True)
+not (False).__xor__(False)
+not (False).__xor__(False)
+not (False).__xor__(False)
+把False视为小于0即可
+举例:
+第一例
+注册数学之家时它设置了相对较难的注册问题,例如
+arctan(x)展开后第二项的分母?(有争议)
+我猜测,展开指的是麦克劳林展开,所以我尝试了如下
+from sympy import symbols,series,atan,Poly
+x=symbols('x')
+a=series(atan(x),x,0,6).removeO()
+b=Poly(a)
+print(b.coeffs()[-2].as_numer_denom()[1])
+即是答案
+注释
+6是6阶,这个数字可以是任意的(大于四)
+RemoveO删除了所有的高阶项,实际上只有一个
+b.coeffs返回的是一个系数的列表,其中倒数第二项是它的第二项
+即-1/3,再用开头提到的as_numer_denom方法即可.
+第二例
+如何比较大小
+有人说用
+x.compare(y)
+这是错误的,也请其他人不要Ctrl-C,Ctrl-V了
+正确方法:
+from sympy import Symbol,ask,Q,Rational,factor,Abs
+from sympy.assumptions import assuming
+x1=Symbol('x1',negative=True)
+d,x3=sympy.symbols('d x3',positive=True)
+x2=x1+d
+y=lambda x:-5/x
+JJ=lambda t1,s1:not t1.__xor__(bool(s))
+l=lambda k1,k2:sympy.together(y(k1)-y(k2)).as_numer_denom()
+a=l(x1,x2)
+s=a[0]>0
+with assuming(Q.lt(d,-x1)):
+    t=ask(Q.negative(a[1]))
+if JJ(t,s):
+    print('y2>y1')
+b=l(x1,x3)
+s=b[0]>0
+t=b[0]>0
+if JJ(t,s):
+    print('y1>y3')
+这是一张试卷上关于反比例函数比较大小的题目,可以自己看,
+我不做解释.
