@@ -1,0 +1,10 @@
+win加r输入python.exe 回车
+输入import webbrowser
+webbrowser.open('http://www.baidu.com')
+或右键desktop新建文本文档输入：
+setlocal
+set A=www.baidu.com
+start http://%A%
+endlocal
+ctrl+s保存
+右键 重命名 后缀.bat
