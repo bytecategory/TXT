@@ -1,0 +1,3 @@
+sc \\system config mysql90 start= auto
+sc start mysql90
+=和值之间存在一个空格（auto表示启动类型为自动，就是开机自启动）\\system表示主机名，如果不加默认为当前系统
