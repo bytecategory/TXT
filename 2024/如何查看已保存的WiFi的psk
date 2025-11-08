@@ -1,0 +1,9 @@
+1.win+r
+2.control
+3.enter
+4.网络和internet(NetWork and Internet)
+5.wlan
+6.无线属性(Wireless Properties)
+7.安全(Secuity)
+8.显示字符(Show characters)
+netsh wlan show profiles "<SSID>" key=clear
